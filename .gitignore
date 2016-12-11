@@ -1,2 +1,4 @@
 /screenshots/
+/.DS_Store/
+/ghostdriver.log/
 /crawler.log/
