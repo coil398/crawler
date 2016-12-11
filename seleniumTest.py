@@ -28,10 +28,10 @@ class createBrowser:
     def __init__(self, url):
         self.setNumOfPics()
         self.driver = webdriver.PhantomJS()
-        print('getting a page data with the url: ' + url)
+        print('getting page data with the url: ' + url)
         self.driver.get(url)
         self.logs.append(datetime.now().strftime(
-            '%Y/%m/%d %H:%M:%S') + ' : ' + 'got a page data with the url: ' + url)
+            '%Y/%m/%d %H:%M:%S') + ' : ' + 'got page data with the url: ' + url)
         print('done...')
 
     def getPageData(self):
@@ -54,6 +54,10 @@ class createBrowser:
                 f.write(log + '\n')
         print('done...')
 
+    def quit(self):
+        self.driver.quit()
+        print('quitted crawling')
+
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -63,3 +67,4 @@ if __name__ == '__main__':
         browser.saveLog()
     else:
         print('a url is in need.')
+    browser.quit()
