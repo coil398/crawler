@@ -65,6 +65,6 @@ if __name__ == '__main__':
         browser = createBrowser(url)
         browser.takeScreenshot()
         browser.saveLog()
+        browser.quit()
     else:
-        print('a url is in need.')
-    browser.quit()
+        print('A url is in need.')
