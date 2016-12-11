@@ -59,6 +59,14 @@ class createBrowser:
         print('quitted crawling')
 
 
+def createBrowsers():
+    browsers = list()
+    with open('./url.list', 'r') as f:
+        for line in f:
+            browsers.append(line)
+    return browsers
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         url = sys.argv[1]
@@ -67,4 +75,4 @@ if __name__ == '__main__':
         browser.saveLog()
         browser.quit()
     else:
-        print('A url is in need.')
+        browsers = createBrowsers()
