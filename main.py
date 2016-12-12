@@ -59,12 +59,56 @@ class createBrowser:
         print('quitted crawling')
 
 
+def createDirIfNotExists():
+    if os.path.exists('./screenshots'):
+        pass
+    else:
+        os.makedirs('./screenshots')
+    return
+
+
+def createBrowsers():
+    browsers = list()
+    with open('./url.list', 'r') as f:
+        for line in f:
+            browsers.append(line)
+    return browsers
+
+
+def getLinesOfFile():
+    return sum(1 for line in open('./url.list'))
+
+
+def checkExistenceOfValidFile():
+    if os.path.exists('./url.list'):
+        if getLinesOfFile() > 0:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def useBrowser(url):
+    browser = createBrowser(url)
+    browser.takeScreenshot()
+    browser.saveLog()
+    browser.quit()
+
+
+def useBrowsers():
+    browsers = createBrowsers()
+    for browser in browsers:
+        useBrowser(url)
+
+
 if __name__ == '__main__':
+    createDirIfNotExists()
     if len(sys.argv) > 1:
         url = sys.argv[1]
-        browser = createBrowser(url)
-        browser.takeScreenshot()
-        browser.saveLog()
-        browser.quit()
+        useBrowser(url)
     else:
-        print('A url is in need.')
+        if checkExistenceOfValidFile():
+            useBrowsers()
+        else:
+            print('A Valid File For URLS Is In Need.')
