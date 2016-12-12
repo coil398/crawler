@@ -89,16 +89,26 @@ def checkExistenceOfValidFile():
         return False
 
 
+def useBrowser(url):
+    browser = createBrowser(url)
+    browser.takeScreenshot()
+    browser.saveLog()
+    browser.quit()
+
+
+def useBrowsers():
+    browsers = createBrowsers()
+    for browser in browsers:
+        useBrowser(url)
+
+
 if __name__ == '__main__':
     createDirIfNotExists()
     if len(sys.argv) > 1:
         url = sys.argv[1]
-        browser = createBrowser(url)
-        browser.takeScreenshot()
-        browser.saveLog()
-        browser.quit()
+        useBrowser(url)
     else:
         if checkExistenceOfValidFile():
-            browsers = createBrowsers()
+            useBrowsers()
         else:
             print('A Valid File For URLS Is In Need.')
