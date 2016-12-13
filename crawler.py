@@ -44,6 +44,7 @@ class createBrowser:
         self.logs.append(
             datetime.now().strftime('%Y/%m/%d %H:%M:%S') + ' : ' + 'saved a screenshot with the path: ' + path)
         self.numOfPics = self.numOfPics + 1
+        return 'succeeded in taking a screenshot'
 
     def saveLog(self):
         print('saving the logs...')
@@ -67,7 +68,7 @@ def createDirIfNotExists():
     return
 
 
-def createBrowsers():
+def readURLs():
     browsers = list()
     with open('./url.list', 'r') as f:
         for line in f:
@@ -90,25 +91,39 @@ def checkExistenceOfValidFile():
 
 
 def useBrowser(url):
+    result = [0, 0]
     browser = createBrowser(url)
-    browser.takeScreenshot()
+    result[0] = browser.getPageData()
+    result[1] = browser.takeScreenshot()
     browser.saveLog()
     browser.quit()
+    return result
 
 
 def useBrowsers():
-    browsers = createBrowsers()
-    for browser in browsers:
-        useBrowser(url)
+    results = list()
+    urls = readURLs()
+    for url in urls:
+        results.append(useBrowser(url))
+    return results
+
+
+def main(arg=None):
+    results = 0
+    createDirIfNotExists()
+    if arg is None:
+        if checkExistenceOfValidFile():
+            results = useBrowsers()
+        else:
+            print('A Valid File For URLS Is In Need.')
+    else:
+        url = arg
+        results = useBrowser(url)
+    return results
 
 
 if __name__ == '__main__':
-    createDirIfNotExists()
+    argument = []
     if len(sys.argv) > 1:
-        url = sys.argv[1]
-        useBrowser(url)
-    else:
-        if checkExistenceOfValidFile():
-            useBrowsers()
-        else:
-            print('A Valid File For URLS Is In Need.')
+        argument[0] = sys.argv[0]
+    main(argument)
